@@ -1,4 +1,4 @@
-# AESC
+# anefsic
 Another effect size calculator in R - because the other ones annoy me.
 
 (I'm no statistician or expert on this stuff. Don't trust results of my code, check them with other methods. If you find any errors, I'm glad about any contributions and pull requests.)
