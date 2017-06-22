@@ -1,4 +1,4 @@
-computeG_means_independent <- function(mean1, mean2, sd1, sd2, n1, n2){
+computeG_means_independent <- function(mean1, mean2, sd1, sd2, n1, n2, print_d = FALSE){
 ## Computes Cohen's d and Hedge's g for independent samples
 ##
 ## Formulas taken from Introduction to Meta-Analysis by M. Borenstein,
@@ -7,7 +7,8 @@ computeG_means_independent <- function(mean1, mean2, sd1, sd2, n1, n2){
   #sanitize inputs
   stopifnot(is.numeric(mean1), is.numeric(mean2),
             is.numeric(sd1), is.numeric(sd2),
-            is.numeric(n1), is.numeric(n2))
+            is.numeric(n1), is.numeric(n2),
+            is.logical(print_d))
 
   #compute cohen's d plus its SD and SE, plus 95% CIs
   sd_pooled <- sqrt( ((n1-1)*sd1^2+(n2-1)*sd2^2) / (n1+n2-2) )
@@ -24,13 +25,19 @@ computeG_means_independent <- function(mean1, mean2, sd1, sd2, n1, n2){
   se_g <- sqrt(sd_g)
   g_ci <- g + c(-qnorm(.975)*se_g, qnorm(.975)*se_g)
   
-
   #print the results
-  cat("Effect Sizes (independent):", "\n",
-      "Cohen's d: ", d, "[", d_ci, "]", "\n",
-      "sd =", sd_d, ", se =", se_d, "\n\n",
-      "Hedge's g: ", g, "[", g_ci, "]", "\n",
-      "sd =", sd_g, ", se =", se_g, "\n\n"
-      )
+  if(print_d){
+    cat("Effect Sizes (independent):", "\n",
+        "Cohen's d: ", d, "[", d_ci, "]", "\n",
+        "sd =", sd_d, ", se =", se_d, "\n\n",
+        "Hedge's g: ", g, "[", g_ci, "]", "\n",
+        "sd =", sd_g, ", se =", se_g, "\n\n"
+    )
+  } else {
+    cat("Effect Sizes (independent):", "\n",
+        "Hedge's g: ", g, "[", g_ci, "]", "\n",
+        "sd =", sd_g, ", se =", se_g, "\n\n"
+    )
+  }
 
 }

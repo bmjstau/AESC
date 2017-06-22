@@ -1,4 +1,4 @@
-computeG_means_paired <- function(mean1, mean2, n_pairs, r_pairs, sd_diff){
+computeG_means_paired <- function(mean1, mean2, n_pairs, r_pairs, sd_diff, print_d = FALSE){
 ## Computes Cohen's d and Hedge's g for paired samples / pre-post-designs.
 ##
 ## Formulas taken from Introduction to Meta-Analysis by M. Borenstein,
@@ -7,7 +7,7 @@ computeG_means_paired <- function(mean1, mean2, n_pairs, r_pairs, sd_diff){
   #sanitize inputs
   stopifnot(is.numeric(mean1), is.numeric(mean2),
             is.numeric(r_pairs), is.numeric(sd_diff),
-            is.numeric(n_pairs))
+            is.numeric(n_pairs), is.logical(print_d))
 
   #compute cohen's d plus its SD and SE, plus 95% CIs
   sd_pooled <- sd_diff/sqrt(2*(1-r_pairs))
@@ -25,11 +25,19 @@ computeG_means_paired <- function(mean1, mean2, n_pairs, r_pairs, sd_diff){
   
 
   #print the results
-  cat("Effect Sizes (paired):", "\n",
-      "Cohen's d: ", d, "[", d_ci, "]", "\n",
-      "sd =", sd_d, ", se =", se_d, "\n\n",
-      "Hedge's g: ", g, "[", g_ci, "]", "\n",
-      "sd =", sd_g, ", se =", se_g, "\n\n"
-      )
+  if(print_d){
+    cat("Effect Sizes (paired):", "\n",
+        "Cohen's d: ", d, "[", d_ci, "]", "\n",
+        "sd =", sd_d, ", se =", se_d, "\n\n",
+        "Hedge's g: ", g, "[", g_ci, "]", "\n",
+        "sd =", sd_g, ", se =", se_g, "\n\n"
+    )
+  } else {
+    cat("Effect Sizes (paired):", "\n",
+        "Hedge's g: ", g, "[", g_ci, "]", "\n",
+        "sd =", sd_g, ", se =", se_g, "\n\n"
+    )
+  }
+  
 
 }
